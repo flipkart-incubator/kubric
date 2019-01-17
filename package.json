@@ -1,5 +1,5 @@
 {
-  "name": "rn-coordinator-layout",
+  "name": "ballet",
   "version": "1.0.0",
   "description": "Android's co-ordinator layout ported to work on react native (iOS and Android and on web via RNW)",
   "main": "index.js",
@@ -11,6 +11,7 @@
     "url": "git+ssh://git@github.com/flipkart-incubator/rn-coordinator-layout.git"
   },
   "keywords": [
+    "ballet",
     "Coordinator",
     "layout",
     "coordinatorlayout",

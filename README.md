@@ -24,4 +24,12 @@ npm install <TBD>
 ```
 
 # Demo
-Demo from Flipkart app on Android, iOS and Web
+Here's a demo from Flipkart app on Android, & iOS where toolbar hides automatically on scrolling down, and unhides when scrolling up. This behaviour is implemented using Ballet.
+
+Android demo | iOS demo
+--- | ---
+![](https://raw.githubusercontent.com/flipkart-incubator/ballet/master/android_ballet_demo.gif) | ![](https://raw.githubusercontent.com/flipkart-incubator/ballet/master/ios_ballet_demo.gif)
+
+
+
+

@@ -7,6 +7,7 @@
 <h4 align="center">
 Android's awesome co-ordinator layout now on react native.
 </h4>
+
 ![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg "Apache" )
 
 # Key Features

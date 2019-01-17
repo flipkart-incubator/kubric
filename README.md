@@ -8,7 +8,9 @@
 Android's awesome co-ordinator layout now on react native.
 </h4>
 
-<center><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"/></center>
+<p align="center"> 
+<img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg">
+</p>
 
 # Key Features
 - <b>Cross platform</b> : Ballet can be use on react native for Android and iOS. It also work on the web via React native web library.

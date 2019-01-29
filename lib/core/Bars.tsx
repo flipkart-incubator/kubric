@@ -1,4 +1,4 @@
-import { ViewProperties, Animated, Image, View, ViewStyle, ImageStyle, Insets } from 'react-native';
+import { ViewProperties, Animated, Image, View, ViewStyle, ImageStyle, Insets, ImageURISource, ImageRequireSource } from 'react-native';
 import { CLScrollBehaviour, CLScrollEffect } from './Behaviours';
 import * as React from 'react';
 import { BOTTOM_SHADOW_IMAGE, TOP_SHADOW_IMAGE, SEPARATOR_HEIGHT, CLEAR_COLOR } from './resources/Constants';
@@ -73,14 +73,14 @@ export class CLAppBar extends React.Component<CLBarProps, CLBarState> implements
 
     public render(): React.ReactNode {
         if (this.props.showSeparator) {
-            const separatorImageURI = this.separatorImageURI();
+            const shadowImageSource = this.shadowImageSource();
             const containerStyle = this.containerStyle();
             const separatorStyle = this.separatorStyle();
 
             return (
                 <Animated.View {...this.props} style={[this.props.style, { height: this.state.heightAnimatedValue, backgroundColor: CLEAR_COLOR }]}>
                     <View style={[this.props.style, containerStyle]}>{this.renderItems(this.props.scrollBehaviourOffset)}</View>
-                    <Image style={separatorStyle} source={{ uri: separatorImageURI }} resizeMode={'stretch'} />
+                    <Image style={separatorStyle} source={shadowImageSource } resizeMode={'stretch'} />
                 </Animated.View>
             );
         } else {
@@ -96,8 +96,8 @@ export class CLAppBar extends React.Component<CLBarProps, CLBarState> implements
         return { bottom: SEPARATOR_HEIGHT };
     };
 
-    protected separatorImageURI = (): string | undefined => {
-        return BOTTOM_SHADOW_IMAGE;
+    protected shadowImageSource = (): ImageRequireSource | ImageURISource => {
+        return require('./resources/assets/' + TOP_SHADOW_IMAGE);
     };
 
     protected separatorStyle = (): ImageStyle => {
@@ -189,8 +189,8 @@ export class CLBottomBar extends CLAppBar {
         return { top: SEPARATOR_HEIGHT };
     };
 
-    protected separatorImageURI = (): string | undefined => {
-        return TOP_SHADOW_IMAGE;
+    protected shadowImageSource = (): ImageRequireSource | ImageURISource => {
+        return require('./resources/assets/' + BOTTOM_SHADOW_IMAGE);
     };
 
     protected separatorStyle = (): ImageStyle => {

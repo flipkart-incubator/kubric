@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "tsc": "sh scripts/build.sh",
-    "build": "npm run clean && npm run tsc",
+    "watch": "npm run clean && npm run tsc",
     "deploy": "sh scripts/deploy.sh",
     "publishRelease": "sh scripts/publishRelease.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -23,6 +23,7 @@
   "devDependencies": {
     "@types/react": "16.0.40",
     "@types/react-native": "0.51.10",
+    "copyfiles": "^2.1.0",
     "react-native-typescript-transformer": "1.2.10",
     "rimraf": "2.6.2",
     "tslint": "5.10.0"

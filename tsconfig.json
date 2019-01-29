@@ -16,14 +16,14 @@
     "paths": {                                /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
       "react-native-web": ["node_modules/@types/react-native"]
     },                              
-    "removeComments": true,                /* Do not emit comments to output. */
+    "sourceMap": true,                        /* Generates corresponding '.map' file. */
+    "removeComments": false,                  /* Do not emit comments to output. */
 
     /* Basic Options */
     // "lib": [],                             /* Specify library files to be included in the compilation. */
     // "allowJs": true,                       /* Allow javascript files to be compiled. */
     // "checkJs": true,                       /* Report errors in .js files. */
     // "declarationMap": true,                /* Generates a sourcemap for each corresponding '.d.ts' file. */
-    // "sourceMap": true,                     /* Generates corresponding '.map' file. */
     // "outFile": "./",                       /* Concatenate and emit output to single file. */
     // "composite": true,                     /* Enable project compilation */
     // "noEmit": true,                        /* Do not emit outputs. */

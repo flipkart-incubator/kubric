@@ -1,6 +1,6 @@
 {
-  "name": "ballet",
-  "version": "1.0.0",
+  "name": "fk-ballet",
+  "version": "0.1.0-beta-1",
   "description": "Android's co-ordinator layout ported to work on react native (iOS and Android and on web via RNW)",
   "main": "index.js",
   "scripts": {

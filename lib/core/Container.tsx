@@ -1,19 +1,25 @@
 import * as React from 'react';
-import { Animated, Easing, LayoutChangeEvent, LayoutRectangle, NativeScrollEvent, NativeSyntheticEvent, ScrollViewProperties, StyleSheet, View, ViewProperties } from 'react-native';
-import { OnRecreateParams } from 'recyclerlistview';
-import { containerStyles } from '../../../../resources/styles/ContainerStyles';
-import { EdgeInsets } from './../EdgeInsets';
+import {
+    Animated,
+    Easing,
+    LayoutChangeEvent,
+    LayoutRectangle,
+    NativeScrollEvent,
+    NativeSyntheticEvent,
+    ScrollViewProperties,
+    View,
+    ViewProperties,
+    Insets
+} from 'react-native';
+import { styles } from './resources/Styles';
 import { CLAppBar, CLBarProps, CLBottomBar } from './Bars';
 import { CLScrollBehaviour, CLScrollEffect } from './Behaviours';
 
-export interface CLContainerScrollViewProps extends ScrollViewProperties {
-    onRecreate?: (params: OnRecreateParams) => void;
-}
 
 export interface CLContainerProps extends ViewProperties {
     offset?: number;
-    safeAreaInsets?: EdgeInsets;
-    renderScrollComponent?: (props: CLContainerScrollViewProps) => React.ReactElement<any>;
+    safeAreaInsets?: Insets;
+    renderScrollComponent?: (props: ScrollViewProperties) => React.ReactElement<any>;
     renderBottomBar?: (props: CLBarProps) => React.ReactElement<CLBarProps>;
     renderAppBar?: (props: CLBarProps) => React.ReactElement<CLBarProps>;
     appBarScrollBehaviours?: CLScrollBehaviour[];
@@ -85,23 +91,22 @@ export class CLContainer extends React.Component<CLContainerProps> {
         });
 
         if (!hasScroller && !hasAppBar && !hasBottomBar) {
-            return <View style={[containerStyles.fill, this.props.style]} />;
+            return <View style={[styles.fill, this.props.style]} />;
         }
 
         return (
             <View style={[{ flex: 1, paddingBottom, paddingTop }, this.props.style]}>
                 {this.props.renderScrollComponent
                     ? this.props.renderScrollComponent({
-                          contentContainerStyle: { paddingTop: this._cummulativeDimensionRange.appBar.maxHeight, paddingBottom: this._cummulativeDimensionRange.bottomBar.minHeight },
-                          style: { flex: 1 },
-                          scrollEventThrottle: 16,
-                          onScroll: this._maxPaddingY === this._minPaddingY ? undefined : this._scrollListner,
-                          onRecreate: this._onRecreate,
-                          onScrollEndDrag: this._onScrollEndDrag,
-                          onMomentumScrollEnd: this._onMomentumScrollEnd,
-                          onContentSizeChange: this._onContentSizeChange,
-                          onLayout: this._onScrollViewLayout
-                      })
+                        contentContainerStyle: { paddingTop: this._cummulativeDimensionRange.appBar.maxHeight, paddingBottom: this._cummulativeDimensionRange.bottomBar.minHeight },
+                        style: { flex: 1 },
+                        scrollEventThrottle: 16,
+                        onScroll: this._maxPaddingY === this._minPaddingY ? undefined : this._scrollListner,
+                        onScrollEndDrag: this._onScrollEndDrag,
+                        onMomentumScrollEnd: this._onMomentumScrollEnd,
+                        onContentSizeChange: this._onContentSizeChange,
+                        onLayout: this._onScrollViewLayout
+                    })
                     : undefined}
 
                 {this.props.appBarContentRenderer && this.props.appBarScrollBehaviours !== undefined ? (
@@ -115,18 +120,18 @@ export class CLContainer extends React.Component<CLContainerProps> {
                             showSeparator: true
                         })
                     ) : (
-                        <CLAppBar
-                            style={styles.header}
-                            safeAreaInsets={{ ...safeAreaInsets, bottom: 0 }}
-                            scrollBehaviourOffset={scrollBehvavioutOffsetInterpolation}
-                            scrollBehaviours={this.props.appBarScrollBehaviours}
-                            contentRenderer={this.props.appBarContentRenderer}
-                            showSeparator={true}
-                        />
-                    )
+                            <CLAppBar
+                                style={styles.header}
+                                safeAreaInsets={{ ...safeAreaInsets, bottom: 0 }}
+                                scrollBehaviourOffset={scrollBehvavioutOffsetInterpolation}
+                                scrollBehaviours={this.props.appBarScrollBehaviours}
+                                contentRenderer={this.props.appBarContentRenderer}
+                                showSeparator={true}
+                            />
+                        )
                 ) : (
-                    undefined
-                )}
+                        undefined
+                    )}
                 {this.props.bottomBarContentRenderer && this.props.bottomBarScrollBehaviours !== undefined ? (
                     this.props.renderBottomBar ? (
                         this.props.renderBottomBar({
@@ -138,18 +143,18 @@ export class CLContainer extends React.Component<CLContainerProps> {
                             showSeparator: true
                         })
                     ) : (
-                        <CLBottomBar
-                            style={styles.footer}
-                            safeAreaInsets={{ ...safeAreaInsets, top: 0 }}
-                            scrollBehaviourOffset={scrollBehvavioutOffsetInterpolation}
-                            scrollBehaviours={this.props.bottomBarScrollBehaviours}
-                            contentRenderer={this.props.bottomBarContentRenderer}
-                            showSeparator={true}
-                        />
-                    )
+                            <CLBottomBar
+                                style={styles.footer}
+                                safeAreaInsets={{ ...safeAreaInsets, top: 0 }}
+                                scrollBehaviourOffset={scrollBehvavioutOffsetInterpolation}
+                                scrollBehaviours={this.props.bottomBarScrollBehaviours}
+                                contentRenderer={this.props.bottomBarContentRenderer}
+                                showSeparator={true}
+                            />
+                        )
                 ) : (
-                    undefined
-                )}
+                        undefined
+                    )}
             </View>
         );
     }
@@ -175,13 +180,6 @@ export class CLContainer extends React.Component<CLContainerProps> {
             this.props.onProgress(this._scrollBehaviourOffset, this._scrollBehaviourOffsetAnimatedValue, this._cummulativeDimensionRange);
         }
     }
-
-    private _onRecreate = (lastOffsetEvent: OnRecreateParams): void => {
-        const lastOffset = lastOffsetEvent.lastOffset;
-        if (lastOffset) {
-            this._updateScrollBehavior(lastOffset);
-        }
-    };
 
     private _setBehaviourOffset(nextOffset: number): void {
         this._scrollBehaviourOffset = nextOffset > 1 ? 1 : nextOffset < 0 ? 0 : nextOffset;
@@ -241,9 +239,9 @@ export class CLContainer extends React.Component<CLContainerProps> {
         };
     };
 
-    private _calculateBehaviourForBar = (scrollBehaviours: CLScrollBehaviour[], safeAreaInsets?: EdgeInsets): { minHeight: number; maxHeight: number } => {
+    private _calculateBehaviourForBar = (scrollBehaviours: CLScrollBehaviour[], safeAreaInsets?: Insets): { minHeight: number; maxHeight: number } => {
         const _deducedItemDimensionBehaviours = [];
-        let minHeight = safeAreaInsets ? safeAreaInsets.top + safeAreaInsets.bottom : 0;
+        let minHeight = safeAreaInsets ? (safeAreaInsets.top || 0) + (safeAreaInsets.bottom || 0) : 0;
         let maxHeight = minHeight;
 
         for (const behaviour of scrollBehaviours) {
@@ -334,23 +332,6 @@ export class CLContainer extends React.Component<CLContainerProps> {
         }
     };
 }
-
-const styles = StyleSheet.create({
-    header: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        overflow: 'hidden'
-    },
-    footer: {
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        overflow: 'hidden'
-    }
-});
 
 /*************************** Experimental, Do NOT delete *****************************/
 

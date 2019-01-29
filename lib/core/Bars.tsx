@@ -1,11 +1,11 @@
-import { ViewProperties, Animated, Image, View, ViewStyle, ImageStyle } from 'react-native';
-import { EdgeInsets } from '../EdgeInsets';
+import { ViewProperties, Animated, Image, View, ViewStyle, ImageStyle, Insets } from 'react-native';
 import { CLScrollBehaviour, CLScrollEffect } from './Behaviours';
 import * as React from 'react';
-import { BOTTOM_SHADOW_IMAGE, TOP_SHADOW_IMAGE, shadowStyles, SEPARATOR_HEIGHT, CLEAR_COLOR } from './resources/Constants';
+import { BOTTOM_SHADOW_IMAGE, TOP_SHADOW_IMAGE, SEPARATOR_HEIGHT, CLEAR_COLOR } from './resources/Constants';
+import { styles } from './resources/Styles';
 
 export interface CLBarProps extends ViewProperties {
-    safeAreaInsets?: EdgeInsets;
+    safeAreaInsets?: Insets;
     scrollBehaviourOffset: Animated.AnimatedInterpolation;
     scrollBehaviours: CLScrollBehaviour[];
     contentRenderer: (index: number, scrollBehaviourOffset: Animated.AnimatedInterpolation) => React.ReactElement<any> | undefined | null;
@@ -30,7 +30,7 @@ export class CLAppBar extends React.Component<CLBarProps, CLBarState> implements
     }
 
     public static getDerivedState<K extends keyof CLBarState>(nextProps: CLBarProps, _: Pick<CLBarState, K> | CLBarState | undefined): Pick<CLBarState, K> | CLBarState {
-        let minHeight = (nextProps.safeAreaInsets ? nextProps.safeAreaInsets.top + nextProps.safeAreaInsets.bottom : 0) + (nextProps.showSeparator ? SEPARATOR_HEIGHT : 0);
+        let minHeight = (nextProps.safeAreaInsets ? (nextProps.safeAreaInsets.top || 0) + (nextProps.safeAreaInsets.bottom || 0) : 0) + (nextProps.showSeparator ? SEPARATOR_HEIGHT : 0);
         let maxHeight = minHeight;
 
         for (const behaviour of nextProps.scrollBehaviours) {
@@ -101,13 +101,13 @@ export class CLAppBar extends React.Component<CLBarProps, CLBarState> implements
     };
 
     protected separatorStyle = (): ImageStyle => {
-        return shadowStyles.bottomShadow;
+        return styles.bottomShadow as ImageStyle;
     };
 
     protected renderItems = (scrollBehaviourOffset: Animated.AnimatedInterpolation): React.ReactElement<any>[] => {
         const children: React.ReactElement<any>[] = [];
         let index: number = 0;
-        let topPosition: number = this.props.safeAreaInsets ? this.props.safeAreaInsets.top : 0;
+        let topPosition: number = (this.props.safeAreaInsets && this.props.safeAreaInsets.top) || 0;
 
         let translateYOffset: Animated.AnimatedInterpolation = new Animated.Value(0);
 
@@ -190,15 +190,11 @@ export class CLBottomBar extends CLAppBar {
     };
 
     protected separatorImageURI = (): string | undefined => {
-        /* Need shadow in bottom bar only when safeAreaInsets.bottom is 0 */
-        if (this.props.safeAreaInsets && this.props.safeAreaInsets.bottom > 0) {
-            return undefined;
-        }
         return TOP_SHADOW_IMAGE;
     };
 
     protected separatorStyle = (): ImageStyle => {
-        return shadowStyles.topShadow;
+        return styles.topShadow as ImageStyle;
     };
 
     /**
@@ -208,7 +204,7 @@ export class CLBottomBar extends CLAppBar {
     protected renderItems = (scrollBehaviourOffset: Animated.AnimatedInterpolation): React.ReactElement<any>[] => {
         const children: React.ReactElement<any>[] = [];
         let index: number = 0;
-        let topPosition: number = this.props.safeAreaInsets ? this.props.safeAreaInsets.top : 0;
+        let topPosition: number = (this.props.safeAreaInsets && this.props.safeAreaInsets.top) || 0;
 
         for (const scrollBehaviour of this.props.scrollBehaviours) {
             const content = this.props.contentRenderer(index, scrollBehaviourOffset);

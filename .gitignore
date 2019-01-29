@@ -1,0 +1,6 @@
+# Generated source #
+dist/*
+
+# dependencies #
+node_modules/*
+

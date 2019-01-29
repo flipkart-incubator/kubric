@@ -4,11 +4,28 @@
   "description": "Android's co-ordinator layout ported to work on react native (iOS and Android and on web via RNW)",
   "main": "index.js",
   "scripts": {
+    "clean": "rimraf dist",
+    "tsc": "sh scripts/build.sh",
+    "build": "npm run clean && npm run tsc",
+    "deploy": "sh scripts/deploy.sh",
+    "publishRelease": "sh scripts/publishRelease.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/flipkart-incubator/rn-coordinator-layout.git"
+  },
+  "dependencies": {
+    "react": "16.0.0-beta.5",
+    "react-native": "0.49.5",
+    "react-native-web": "0.6.0"
+  },
+  "devDependencies": {
+    "@types/react": "16.0.40",
+    "@types/react-native": "0.51.10",
+    "react-native-typescript-transformer": "1.2.10",
+    "rimraf": "2.6.2",
+    "tslint": "5.10.0"
   },
   "keywords": [
     "ballet",

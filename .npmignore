@@ -1,0 +1,12 @@
+# Ignore lib #
+lib/
+
+# Ignore Example #
+CLExample/
+
+# scripts #
+scripts
+
+# Demo resources #
+*.gif
+*.png

@@ -17,6 +17,7 @@ import { CLScrollBehaviour, CLScrollEffect } from './Behaviours';
 
 
 export interface CLContainerProps extends ViewProperties {
+    useNativeDriver?: boolean;
     offset?: number;
     safeAreaInsets?: Insets;
     renderScrollComponent?: (props: ScrollViewProperties) => React.ReactElement<any>;
@@ -27,11 +28,11 @@ export interface CLContainerProps extends ViewProperties {
     appBarContentRenderer?: (index: number, offset: Animated.AnimatedInterpolation) => React.ReactElement<any> | undefined | null;
     bottomBarContentRenderer?: (index: number, offset: Animated.AnimatedInterpolation) => React.ReactElement<any> | undefined | null;
 
-    onProgress?: (offset: number, animatedInterpolation: Animated.AnimatedInterpolation, behaviourModel: BehaviourModel) => void;
+    onProgress?: (offset: number, animatedInterpolation: Animated.AnimatedInterpolation, CLBehaviourModel: CLBehaviourModel) => void;
     onLayout?: (event: LayoutChangeEvent) => void;
 }
 
-export interface BehaviourModel {
+export interface CLBehaviourModel {
     appBar: { minHeight: number; maxHeight: number };
     bottomBar: { minHeight: number; maxHeight: number };
 }
@@ -46,7 +47,7 @@ export class CLContainer extends React.Component<CLContainerProps> {
     private _lastOffsetY: number = 0;
     private _minPaddingY = 0;
     private _maxPaddingY = 0;
-    private _cummulativeDimensionRange: BehaviourModel = {
+    private _cummulativeDimensionRange: CLBehaviourModel = {
         appBar: { minHeight: 0, maxHeight: 0 },
         bottomBar: { minHeight: 0, maxHeight: 0 }
     };
@@ -207,7 +208,7 @@ export class CLContainer extends React.Component<CLContainerProps> {
         }
     };
 
-    private _calculateBehaviour: (newProps: CLContainerProps) => BehaviourModel = (newProps: CLContainerProps) => {
+    private _calculateBehaviour: (newProps: CLContainerProps) => CLBehaviourModel = (newProps: CLContainerProps) => {
         const safeAreaInsets = newProps.safeAreaInsets ? newProps.safeAreaInsets : { top: 0, left: 0, bottom: 0, right: 0 };
         let cummulativeAppBarDimensionRange: { minHeight: number; maxHeight: number };
         let cummulativeBottomBarDimensionRange: { minHeight: number; maxHeight: number };
@@ -291,7 +292,8 @@ export class CLContainer extends React.Component<CLContainerProps> {
             Animated.timing(this._scrollBehaviourOffsetAnimatedValue, {
                 toValue: targetOffset,
                 duration,
-                easing: Easing.ease
+                easing: Easing.ease,
+                useNativeDriver: this.props.useNativeDriver
             }).start((_result: { finished: boolean }) => {
                 this._scrollBehaviourOffset = targetOffset;
                 this._animating = false;

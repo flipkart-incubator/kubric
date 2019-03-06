@@ -1,12 +1,15 @@
 # # Ignore lib #
-# lib/
+lib/
 
 # Ignore Example #
 CLExample/
+
+# Ignore Source code #
+lib/
 
 # scripts #
 scripts
 
 # Demo resources #
 *.gif
-*.png
+icon-above-font.png

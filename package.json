@@ -1,5 +1,5 @@
 {
-  "name": "fk-ballet",
+  "name": "kubrik",
   "version": "0.1.0-beta-1",
   "description": "Android's co-ordinator layout ported to work on react native (iOS and Android and on web via RNW)",
   "main": "index.js",
@@ -9,6 +9,7 @@
     "watch": "npm run clean && npm run tsc",
     "deploy": "sh scripts/deploy.sh",
     "publishRelease": "sh scripts/publishRelease.sh",
+    "publishLocal": "sh scripts/publishLocal.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

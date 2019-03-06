@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <img src="https://raw.githubusercontent.com/flipkart-incubator/ballet/master/icon-above-font.png" alt="Ballet" width="200"/>
+  <img src="https://raw.githubusercontent.com/flipkart-incubator/ballet/master/kubrik_big_icon.png" alt="Ballet" width="200"/>
  
 </h1>
 

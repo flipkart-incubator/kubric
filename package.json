@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/flipkart-incubator/rn-coordinator-layout.git"
+    "url": "git+ssh://git@github.com:flipkart-incubator/kubrik.git"
   },
   "dependencies": {
     "react": "16.0.0-beta.5",
@@ -42,7 +42,7 @@
   "author": "Rajat Gupta",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/flipkart-incubator/rn-coordinator-layout/issues"
+    "url": "https://github.com/flipkart-incubator/kubrik/issues"
   },
-  "homepage": "https://github.com/flipkart-incubator/rn-coordinator-layout#readme"
+  "homepage": "https://github.com/flipkart-incubator/kubrik#readme"
 }

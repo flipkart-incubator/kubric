@@ -97,7 +97,7 @@ export class CLAppBar extends React.Component<CLBarProps, CLBarState> implements
     };
 
     protected shadowImageSource = (): ImageRequireSource | ImageURISource => {
-        return require('./resources/assets/' + TOP_SHADOW_IMAGE);
+        return require('./resources/assets/shadow-top.png');
     };
 
     protected separatorStyle = (): ImageStyle => {
@@ -190,7 +190,7 @@ export class CLBottomBar extends CLAppBar {
     };
 
     protected shadowImageSource = (): ImageRequireSource | ImageURISource => {
-        return require('./resources/assets/' + BOTTOM_SHADOW_IMAGE);
+        return require('./resources/assets/shadow-bottom.png');
     };
 
     protected separatorStyle = (): ImageStyle => {

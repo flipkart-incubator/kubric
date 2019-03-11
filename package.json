@@ -1,6 +1,6 @@
 {
   "name": "kubric",
-  "version": "0.1.0-beta-2",
+  "version": "0.1.0-beta-3",
   "description": "Android's co-ordinator layout ported to work on react native (iOS and Android and on web via RNW)",
   "main": "index.js",
   "scripts": {

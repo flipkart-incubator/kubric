@@ -1,7 +1,7 @@
 import { ViewProperties, Animated, Image, View, ViewStyle, ImageStyle, Insets, ImageURISource, ImageRequireSource } from 'react-native';
 import { CLScrollBehaviour, CLScrollEffect } from './Behaviours';
 import * as React from 'react';
-import { BOTTOM_SHADOW_IMAGE, TOP_SHADOW_IMAGE, SEPARATOR_HEIGHT, CLEAR_COLOR } from './resources/Constants';
+import { SEPARATOR_HEIGHT, CLEAR_COLOR } from './resources/Constants';
 import { styles } from './resources/Styles';
 
 export interface CLBarProps extends ViewProperties {

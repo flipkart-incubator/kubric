@@ -30,6 +30,7 @@ export interface CLContainerProps extends ViewProperties {
 
     onProgress?: (offset: number, animatedInterpolation: Animated.AnimatedInterpolation, CLBehaviourModel: CLBehaviourModel) => void;
     onLayout?: (event: LayoutChangeEvent) => void;
+    showSeparator?: boolean;
 }
 
 export interface CLBehaviourModel {
@@ -78,7 +79,8 @@ export class CLContainer extends React.Component<CLContainerProps> {
         const hasAppBar = this.props.appBarScrollBehaviours && this.props.appBarScrollBehaviours.length > 0 && this.props.appBarContentRenderer !== undefined;
         const hasBottomBar = this.props.bottomBarScrollBehaviours && this.props.bottomBarScrollBehaviours.length > 0 && this.props.bottomBarContentRenderer !== undefined;
         const safeAreaInsets = this.props.safeAreaInsets ? this.props.safeAreaInsets : { top: 0, left: 0, bottom: 0, right: 0 };
-
+        const showSeparator = !!this.props.showSeparator
+        
         const paddingTop = hasAppBar ? 0 : safeAreaInsets.top;
         const paddingBottom = hasBottomBar ? 0 : safeAreaInsets.bottom;
 
@@ -118,7 +120,7 @@ export class CLContainer extends React.Component<CLContainerProps> {
                             scrollBehaviourOffset: scrollBehvavioutOffsetInterpolation,
                             scrollBehaviours: this.props.appBarScrollBehaviours,
                             contentRenderer: this.props.appBarContentRenderer,
-                            showSeparator: true
+                            showSeparator: showSeparator
                         })
                     ) : (
                             <CLAppBar
@@ -127,7 +129,7 @@ export class CLContainer extends React.Component<CLContainerProps> {
                                 scrollBehaviourOffset={scrollBehvavioutOffsetInterpolation}
                                 scrollBehaviours={this.props.appBarScrollBehaviours}
                                 contentRenderer={this.props.appBarContentRenderer}
-                                showSeparator={true}
+                                showSeparator={showSeparator}
                             />
                         )
                 ) : (
@@ -141,7 +143,7 @@ export class CLContainer extends React.Component<CLContainerProps> {
                             scrollBehaviourOffset: scrollBehvavioutOffsetInterpolation,
                             scrollBehaviours: this.props.bottomBarScrollBehaviours,
                             contentRenderer: this.props.bottomBarContentRenderer,
-                            showSeparator: true
+                            showSeparator: showSeparator
                         })
                     ) : (
                             <CLBottomBar
@@ -150,7 +152,7 @@ export class CLContainer extends React.Component<CLContainerProps> {
                                 scrollBehaviourOffset={scrollBehvavioutOffsetInterpolation}
                                 scrollBehaviours={this.props.bottomBarScrollBehaviours}
                                 contentRenderer={this.props.bottomBarContentRenderer}
-                                showSeparator={true}
+                                showSeparator={showSeparator}
                             />
                         )
                 ) : (

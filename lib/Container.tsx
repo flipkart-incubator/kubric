@@ -20,9 +20,9 @@ export interface CLContainerProps extends ViewProperties {
     useNativeDriver?: boolean;
     offset?: number;
     safeAreaInsets?: Insets;
-    renderScrollComponent?: (props: ScrollViewProperties) => React.ReactElement<any>;
-    renderBottomBar?: (props: CLBarProps) => React.ReactElement<CLBarProps>;
-    renderAppBar?: (props: CLBarProps) => React.ReactElement<CLBarProps>;
+    renderScrollComponent?: (props: ScrollViewProperties) => React.ReactElement<any> | null;
+    renderBottomBar?: (props: CLBarProps) => React.ReactElement<CLBarProps> | null;
+    renderAppBar?: (props: CLBarProps) => React.ReactElement<CLBarProps> | null;
     appBarScrollBehaviours?: CLScrollBehaviour[];
     bottomBarScrollBehaviours?: CLScrollBehaviour[];
     appBarContentRenderer?: (index: number, offset: Animated.AnimatedInterpolation) => React.ReactElement<any> | undefined | null;

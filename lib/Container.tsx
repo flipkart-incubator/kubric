@@ -28,7 +28,8 @@ export interface CLContainerProps extends ViewProperties {
     appBarContentRenderer?: (index: number, offset: Animated.AnimatedInterpolation) => React.ReactElement<any> | undefined | null;
     bottomBarContentRenderer?: (index: number, offset: Animated.AnimatedInterpolation) => React.ReactElement<any> | undefined | null;
 
-    onProgress?: (offset: number, animatedInterpolation: Animated.AnimatedInterpolation, CLBehaviourModel: CLBehaviourModel) => void;
+    onProgress?: (offset: number, animatedInterpolation: Animated.AnimatedInterpolation, CLBehaviourModel: CLBehaviourModel, direction: 'up' | 'down' | undefined) => void;
+    onEnd?: (offset: number, animatedInterpolation: Animated.AnimatedInterpolation, CLBehaviourModel: CLBehaviourModel, direction: 'up' | 'down' | undefined) => void;
     onLayout?: (event: LayoutChangeEvent) => void;
     showSeparator?: boolean;
 }
@@ -180,7 +181,13 @@ export class CLContainer extends React.Component<CLContainerProps> {
 
     private _notifyProgress(): void {
         if (this.props.onProgress) {
-            this.props.onProgress(this._scrollBehaviourOffset, this._scrollBehaviourOffsetAnimatedValue, this._cummulativeDimensionRange);
+            this.props.onProgress(this._scrollBehaviourOffset, this._scrollBehaviourOffsetAnimatedValue, this._cummulativeDimensionRange, this._scrollDirection);
+        }
+    }
+
+    private _notifyEnd(): void {
+        if (this.props.onEnd) {
+            this.props.onEnd(this._scrollBehaviourOffset, this._scrollBehaviourOffsetAnimatedValue, this._cummulativeDimensionRange, this._scrollDirection);
         }
     }
 
@@ -300,6 +307,7 @@ export class CLContainer extends React.Component<CLContainerProps> {
                 this._scrollBehaviourOffset = targetOffset;
                 this._animating = false;
                 this._notifyProgress();
+                this._notifyEnd()
             });
         }
     };

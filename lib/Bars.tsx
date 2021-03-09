@@ -1,7 +1,7 @@
 import { ViewProperties, Animated, Image, View, ViewStyle, ImageStyle, Insets, ImageURISource, ImageRequireSource } from 'react-native';
 import { CLScrollBehaviour, CLScrollEffect } from './Behaviours';
 import * as React from 'react';
-import { BOTTOM_SHADOW_IMAGE, TOP_SHADOW_IMAGE, SEPARATOR_HEIGHT, CLEAR_COLOR } from './resources/Constants';
+import { SEPARATOR_HEIGHT, CLEAR_COLOR } from './resources/Constants';
 import { styles } from './resources/Styles';
 
 export interface CLBarProps extends ViewProperties {
@@ -85,9 +85,9 @@ export class CLAppBar extends React.Component<CLBarProps, CLBarState> implements
             );
         } else {
             return (
-                <Animated.View {...this.props} style={[this.props.style, { height: this.state.heightAnimatedValue }]}>
+                <View pointerEvents="box-none" {...this.props} style={this.props.style}>
                     {this.renderItems(this.props.scrollBehaviourOffset)}
-                </Animated.View>
+                </View>
             );
         }
     }
@@ -107,7 +107,6 @@ export class CLAppBar extends React.Component<CLBarProps, CLBarState> implements
     protected renderItems = (scrollBehaviourOffset: Animated.AnimatedInterpolation): React.ReactElement<any>[] => {
         const children: React.ReactElement<any>[] = [];
         let index: number = 0;
-        let topPosition: number = (this.props.safeAreaInsets && this.props.safeAreaInsets.top) || 0;
 
         let translateYOffset: Animated.AnimatedInterpolation = new Animated.Value(0);
 
@@ -159,13 +158,8 @@ export class CLAppBar extends React.Component<CLBarProps, CLBarState> implements
                 <Animated.View
                     key={index}
                     style={{
-                        position: 'absolute',
-                        top: topPosition,
-                        left: 0,
-                        right: 0,
                         transform: [{ translateY }],
                         opacity: alpha,
-                        height,
                         zIndex: -index,
                         overflow: 'hidden'
                     }}
@@ -175,8 +169,6 @@ export class CLAppBar extends React.Component<CLBarProps, CLBarState> implements
             );
 
             children.push(item);
-
-            topPosition += itemMaxHeight;
             index++;
         }
 

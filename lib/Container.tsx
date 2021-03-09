@@ -20,16 +20,18 @@ export interface CLContainerProps extends ViewProperties {
     useNativeDriver?: boolean;
     offset?: number;
     safeAreaInsets?: Insets;
-    renderScrollComponent?: (props: ScrollViewProperties) => React.ReactElement<any>;
-    renderBottomBar?: (props: CLBarProps) => React.ReactElement<CLBarProps>;
-    renderAppBar?: (props: CLBarProps) => React.ReactElement<CLBarProps>;
+    renderScrollComponent?: (props: ScrollViewProperties) => React.ReactElement<any> | null;
+    renderBottomBar?: (props: CLBarProps) => React.ReactElement<CLBarProps> | null;
+    renderAppBar?: (props: CLBarProps) => React.ReactElement<CLBarProps> | null;
     appBarScrollBehaviours?: CLScrollBehaviour[];
     bottomBarScrollBehaviours?: CLScrollBehaviour[];
     appBarContentRenderer?: (index: number, offset: Animated.AnimatedInterpolation) => React.ReactElement<any> | undefined | null;
     bottomBarContentRenderer?: (index: number, offset: Animated.AnimatedInterpolation) => React.ReactElement<any> | undefined | null;
 
-    onProgress?: (offset: number, animatedInterpolation: Animated.AnimatedInterpolation, CLBehaviourModel: CLBehaviourModel) => void;
+    onProgress?: (offset: number, animatedInterpolation: Animated.AnimatedInterpolation, CLBehaviourModel: CLBehaviourModel, direction: 'up' | 'down' | undefined) => void;
+    onOffsetStateChange?: (offset: number, animatedInterpolation: Animated.AnimatedInterpolation, CLBehaviourModel: CLBehaviourModel, direction: 'up' | 'down' | undefined) => void;
     onLayout?: (event: LayoutChangeEvent) => void;
+    showSeparator?: boolean;
 }
 
 export interface CLBehaviourModel {
@@ -43,6 +45,7 @@ const MIN_ANIMATION_DURATION = 150;
 export class CLContainer extends React.Component<CLContainerProps> {
     private _scrollDirection: 'up' | 'down' | undefined;
     private _scrollBehaviourOffset: number = 0;
+    private _scrollBehaviourOffsetPrevious: number = 0;
     private _scrollBehaviourOffsetAnimatedValue: Animated.Value = new Animated.Value(0);
     private _lastOffsetY: number = 0;
     private _minPaddingY = 0;
@@ -78,7 +81,8 @@ export class CLContainer extends React.Component<CLContainerProps> {
         const hasAppBar = this.props.appBarScrollBehaviours && this.props.appBarScrollBehaviours.length > 0 && this.props.appBarContentRenderer !== undefined;
         const hasBottomBar = this.props.bottomBarScrollBehaviours && this.props.bottomBarScrollBehaviours.length > 0 && this.props.bottomBarContentRenderer !== undefined;
         const safeAreaInsets = this.props.safeAreaInsets ? this.props.safeAreaInsets : { top: 0, left: 0, bottom: 0, right: 0 };
-
+        const showSeparator = !!this.props.showSeparator
+        
         const paddingTop = hasAppBar ? 0 : safeAreaInsets.top;
         const paddingBottom = hasBottomBar ? 0 : safeAreaInsets.bottom;
 
@@ -118,7 +122,7 @@ export class CLContainer extends React.Component<CLContainerProps> {
                             scrollBehaviourOffset: scrollBehvavioutOffsetInterpolation,
                             scrollBehaviours: this.props.appBarScrollBehaviours,
                             contentRenderer: this.props.appBarContentRenderer,
-                            showSeparator: true
+                            showSeparator: showSeparator
                         })
                     ) : (
                             <CLAppBar
@@ -127,7 +131,7 @@ export class CLContainer extends React.Component<CLContainerProps> {
                                 scrollBehaviourOffset={scrollBehvavioutOffsetInterpolation}
                                 scrollBehaviours={this.props.appBarScrollBehaviours}
                                 contentRenderer={this.props.appBarContentRenderer}
-                                showSeparator={true}
+                                showSeparator={showSeparator}
                             />
                         )
                 ) : (
@@ -141,7 +145,7 @@ export class CLContainer extends React.Component<CLContainerProps> {
                             scrollBehaviourOffset: scrollBehvavioutOffsetInterpolation,
                             scrollBehaviours: this.props.bottomBarScrollBehaviours,
                             contentRenderer: this.props.bottomBarContentRenderer,
-                            showSeparator: true
+                            showSeparator: showSeparator
                         })
                     ) : (
                             <CLBottomBar
@@ -150,7 +154,7 @@ export class CLContainer extends React.Component<CLContainerProps> {
                                 scrollBehaviourOffset={scrollBehvavioutOffsetInterpolation}
                                 scrollBehaviours={this.props.bottomBarScrollBehaviours}
                                 contentRenderer={this.props.bottomBarContentRenderer}
-                                showSeparator={true}
+                                showSeparator={showSeparator}
                             />
                         )
                 ) : (
@@ -178,7 +182,16 @@ export class CLContainer extends React.Component<CLContainerProps> {
 
     private _notifyProgress(): void {
         if (this.props.onProgress) {
-            this.props.onProgress(this._scrollBehaviourOffset, this._scrollBehaviourOffsetAnimatedValue, this._cummulativeDimensionRange);
+            this.props.onProgress(this._scrollBehaviourOffset, this._scrollBehaviourOffsetAnimatedValue, this._cummulativeDimensionRange, this._scrollDirection);
+        }
+    }
+
+    private _notifyOffSetStateChange(): void {
+        if (this.props.onOffsetStateChange && (this._scrollBehaviourOffset === 0 || this._scrollBehaviourOffset === 1)) {
+            if(this._scrollBehaviourOffsetPrevious !== this._scrollBehaviourOffset) {
+                this._scrollBehaviourOffsetPrevious = this._scrollBehaviourOffset;
+                this.props.onOffsetStateChange(this._scrollBehaviourOffset, this._scrollBehaviourOffsetAnimatedValue, this._cummulativeDimensionRange, this._scrollDirection);
+            }
         }
     }
 
@@ -186,6 +199,7 @@ export class CLContainer extends React.Component<CLContainerProps> {
         this._scrollBehaviourOffset = nextOffset > 1 ? 1 : nextOffset < 0 ? 0 : nextOffset;
         this._scrollBehaviourOffsetAnimatedValue.setValue(this._scrollBehaviourOffset);
         this._notifyProgress();
+        this._notifyOffSetStateChange();
     }
 
     private _onContentSizeChange = (w: number, h: number) => {
@@ -298,6 +312,7 @@ export class CLContainer extends React.Component<CLContainerProps> {
                 this._scrollBehaviourOffset = targetOffset;
                 this._animating = false;
                 this._notifyProgress();
+                this._notifyOffSetStateChange();
             });
         }
     };

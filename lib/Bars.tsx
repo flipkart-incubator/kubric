@@ -141,7 +141,7 @@ export class CLAppBar extends React.Component<CLBarProps, CLBarState> implements
       let translateYOffset: Animated.AnimatedInterpolation = new Animated.Value(0)
 
       // for (const scrollBehaviour of this.props.scrollBehaviours) {
-      const content = this.props.contentRenderer(index, scrollBehaviourOffset)
+      // const content = this.props.contentRenderer(index, scrollBehaviourOffset)
       const itemMinHeight = this.props.scrollBehaviours[index].minHeight
           ? this.props.scrollBehaviours[index].minHeight
           : 0

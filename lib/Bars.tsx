@@ -196,12 +196,9 @@ export class CLBottomBar extends CLAppBar {
     protected renderItems = (scrollBehaviourOffset: Animated.AnimatedInterpolation): React.ReactElement<any>[] => {
         const children: React.ReactElement<any>[] = [];
         let index: number = 0;
-        let topPosition: number = (this.props.safeAreaInsets && this.props.safeAreaInsets.top) || 0;
 
         for (const scrollBehaviour of this.props.scrollBehaviours) {
             const content = this.props.contentRenderer(index, scrollBehaviourOffset);
-
-            const itemMaxHeight = this.props.scrollBehaviours[index].maxHeight;
 
             const alpha =
                 scrollBehaviour.scrollEffect & CLScrollEffect.FADE
@@ -226,8 +223,6 @@ export class CLBottomBar extends CLAppBar {
             );
 
             children.push(item);
-
-            topPosition += itemMaxHeight;
             index++;
         }
         return children;

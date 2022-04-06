@@ -201,7 +201,6 @@ export class CLBottomBar extends CLAppBar {
         for (const scrollBehaviour of this.props.scrollBehaviours) {
             const content = this.props.contentRenderer(index, scrollBehaviourOffset);
 
-            const itemMinHeight = this.props.scrollBehaviours[index].minHeight ? this.props.scrollBehaviours[index].minHeight : 0;
             const itemMaxHeight = this.props.scrollBehaviours[index].maxHeight;
 
             const alpha =
@@ -213,25 +212,11 @@ export class CLBottomBar extends CLAppBar {
                       })
                     : new Animated.Value(1);
 
-            const height =
-                scrollBehaviour.scrollEffect & CLScrollEffect.COLLAPSE
-                    ? scrollBehaviourOffset.interpolate({
-                          inputRange: [0, 1],
-                          outputRange: [itemMaxHeight, itemMinHeight],
-                          extrapolate: 'clamp'
-                      })
-                    : new Animated.Value(itemMaxHeight);
-
             const item = (
                 <Animated.View
                     key={index}
                     style={{
-                        position: 'absolute',
-                        top: topPosition,
-                        left: 0,
-                        right: 0,
                         opacity: alpha,
-                        height,
                         zIndex: index,
                         overflow: 'hidden'
                     }}

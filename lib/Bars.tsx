@@ -1,13 +1,10 @@
 import {
   ViewProperties,
   Animated,
-  Image,
   View,
   ViewStyle,
   ImageStyle,
   Insets,
-  ImageURISource,
-  ImageRequireSource,
 } from 'react-native'
 import { CLScrollBehaviour, CLScrollEffect } from './Behaviours'
 import * as React from 'react'
@@ -102,7 +99,7 @@ export class CLAppBar extends React.Component<CLBarProps, CLBarState> implements
       if (this.props.showSeparator) {
           // const shadowImageSource = this.shadowImageSource();
           const containerStyle = this.containerStyle()
-          const separatorStyle = this.separatorStyle()
+          
 
           return (
               <Animated.View

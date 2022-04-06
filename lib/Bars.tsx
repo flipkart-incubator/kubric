@@ -196,7 +196,7 @@ export class CLAppBar extends React.Component<CLBarProps, CLBarState> implements
                   overflow: 'hidden',
               }}
           >
-              {content}
+            
           </Animated.View>
       )
 
